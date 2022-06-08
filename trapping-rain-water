@@ -1,0 +1,41 @@
+// Question - https://leetcode.com/problems/trapping-rain-water/
+// Answer in cpp
+
+
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int currentMax=0,nextMax=0,ans=0,heighest_Max=0,len=height.size();
+        heighest_Max = *max_element(height.begin(), height.end());
+        
+        for(int i=0;i<len;i++){
+            
+            if(nextMax==0){
+                nextMax = *max_element(height.begin()+i, height.end());
+            }
+            
+            if(height[i]>nextMax){
+                nextMax=height[i];
+            }
+            
+            if(min(currentMax,nextMax)>height[i]){
+                ans = ans+ (min(currentMax,nextMax)-height[i]);
+            }
+            
+            
+            if( height[i]>currentMax){
+                 currentMax=height[i];
+            }
+            if(currentMax>=nextMax){
+                if(height.size()-1>i && height[i+1]<heighest_Max){
+                    nextMax=0 ;
+                } else if(height.size()-1==i){
+                     nextMax=0 ;
+                }
+            }
+            
+        }
+        
+        return ans;
+    }
+};
