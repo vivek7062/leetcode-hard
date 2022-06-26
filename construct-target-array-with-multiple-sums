@@ -1,0 +1,32 @@
+// Question - https://leetcode.com/problems/construct-target-array-with-multiple-sums/
+// Answer in cpp
+  
+
+
+
+
+class Solution {
+public:
+    bool isPossible(vector<int>& target) {
+        priority_queue<int> pq;
+        long int sum=0,dif=0;
+        int max=0,len=target.size();
+        for(int i=0;i<target.size();i++){
+            sum+=target[i];
+            pq.push(target[i]);
+        }
+        while(true){
+            max=pq.top();
+            pq.pop();
+            dif = sum - max;
+            sum=sum-max;
+            if(max==1 || dif==1) return true;
+            else if(dif>max || dif==0 || max%dif==0)  return false;
+            max%=dif;
+            sum+=max;
+            pq.push(max);
+        }
+        
+        return true;
+    }
+};
