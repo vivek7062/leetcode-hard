@@ -1,0 +1,35 @@
+// Question - https://leetcode.com/problems/substring-with-concatenation-of-all-words/
+// Answer in cpp
+
+class Solution {
+public:
+    
+    vector<int> findSubstring(string s, vector<string>& words) {
+        vector<int> ans;
+        int size = words[0].size();
+        int n= words.size();
+        int lenWords = n*size;
+        int len = s.size();
+        if(len<lenWords) return ans;
+        map<string,int> mp,mp1;
+        for(auto& word:words) mp[word]++;
+
+        for(int i=0;i<=len-lenWords;i++){
+            mp1=mp;
+            int t=0;
+            for(;t<n;t++){
+                string str = s.substr(i+t*size,size);
+                if(mp1[str]>0){
+                    mp1[str]--;
+                } else{
+                    break;
+                }
+            }
+            if(t==n){
+                ans.push_back(i);
+            }
+        }
+        
+        return ans;
+    }
+};
