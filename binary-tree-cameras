@@ -1,0 +1,31 @@
+// Question - https://leetcode.com/problems/binary-tree-cameras/
+// Answer in cpp
+
+
+There are three case
+
+if camera have on any node it represent as 2
+If node don't have camera but have under camera it represent as 1
+if node don't have camera but have also don't have in under camera it represent as 2
+class Solution {
+    int count=0;
+public:
+    int minCameraCover(TreeNode* root) {
+        if(countcamera(root)==0) count++;
+        return count;
+    }
+    int countcamera(TreeNode* root){
+        if(!root) return 1;
+        int left = countcamera(root->left);
+        int right = countcamera(root->right);
+        
+        if(left==0 || right==0) {
+            count++;
+            return 2;
+        }
+        if(left==1 && right==1) return 0;
+        if(left==2 || right==2) return 1;
+        
+        return -1;
+    }
+};
