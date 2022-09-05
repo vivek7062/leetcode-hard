@@ -1,0 +1,35 @@
+// Question - https://leetcode.com/problems/maximum-number-of-robots-within-budget/
+// Answer in cpp
+
+
+class Solution {
+public:
+    int maximumRobots(vector<int>& chargeTimes, vector<int>& runningCosts, long long budget) {
+        int ans=0;
+        long long int calBudget=0;
+        int len = runningCosts.size();
+        multiset<int> s;
+        long long prefix[len];
+        prefix[0] =runningCosts[0]; 
+        int j=0;
+        for(int i=1;i<len;i++) prefix[i]=runningCosts[i]+prefix[i-1];
+        
+        for(int i =0;i<len;i++){
+            s.insert(chargeTimes[i]);
+            calBudget = *s.rbegin()+(i-j+1)*1ll* (j>0?prefix[i]-prefix[j-1]:prefix[i]);
+            if(calBudget<=budget){
+                ans = max(ans,i-j+1);
+                continue;
+            }
+            while(j<=i){
+                s.erase(s.find(chargeTimes[j++]));
+                if(j>i) break;
+                calBudget = *s.rbegin()+(i-j+1)*1ll* (j>0?prefix[i]-prefix[j-1]:prefix[i]);
+                if(calBudget>budget) continue;
+                else break;
+            }
+        }
+        
+        return ans;
+    }
+};
