@@ -1,0 +1,33 @@
+// Question - https://leetcode.com/problems/maximum-performance-of-a-team/
+// Answer in cpp
+
+
+class Solution {
+public:
+    int maxPerformance(int n, vector<int>& speed, vector<int>& efficiency, int k) {
+        long ans=0,mod=1000000007;
+        vector<pair<int,int>> vec;
+        priority_queue<int> pq;
+        for(int i=0;i<speed.size();i++){
+            vec.push_back({efficiency[i],speed[i]});
+        }
+        sort(vec.begin(),vec.end(),sortWithEffi);
+        long sum=0;
+        while(vec.size()){
+            pair<int,int> temp=vec[vec.size()-1];
+            vec.pop_back();
+            sum+=temp.second;
+            pq.push(-temp.second);
+            if(pq.size()>k){
+                sum+=pq.top();
+                pq.pop();
+            }
+            ans=max(ans,sum*temp.first);    
+        }
+        return ans%mod;
+    }
+    
+    static bool sortWithEffi(const pair<int,int> &p1,const pair<int,int> &p2){
+        return p1.first==p2.first?p1.second<p2.second:p1.first<p2.first;
+    }
+};
