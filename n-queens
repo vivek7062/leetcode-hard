@@ -1,0 +1,52 @@
+// Question - https://leetcode.com/problems/n-queens/
+// Answer in cpp
+
+class Solution {
+    vector<vector<string>>  ans;
+public:
+    vector<vector<string>> solveNQueens(int n) {
+        vector<string> temp = vector(n,string(n,'.'));
+        dfs(0,n,temp);
+        return ans;
+    }
+    
+    void dfs(int col,int n,vector<string> &temp){
+        if(col==n) {
+                ans.push_back(temp);
+                return;
+        }
+        for(int row=0;row<n;row++){
+            if(canPlace(row,col,n,temp)){
+                temp[row][col] = 'Q';
+                dfs(col+1,n,temp);
+                temp[row][col] = '.';
+            }
+            
+        }
+        
+    }
+    
+    bool canPlace(int row,int col, int n, vector<string> &temp){
+        int tempRow = row;
+        int tempCol = col;
+        while(row>=0 && col>=0){
+            if(temp[row--][col--] == 'Q') return false;
+        }
+        col = tempCol;
+        row = tempRow;
+          while(row<n && col>=0){
+            if(temp[row++][col--] == 'Q') return false;
+        }
+        
+        col = tempCol;
+        row = tempRow;
+          while(col>=0){
+            if(temp[row][col--] == 'Q') return false;
+            }
+        
+        return true;
+    }
+    
+   
+  
+};
