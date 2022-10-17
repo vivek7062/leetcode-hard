@@ -1,0 +1,34 @@
+// Question - https://leetcode.com/problems/count-subarrays-with-fixed-bounds/
+// Answer in cpp
+
+
+class Solution {
+public:
+    long long countSubarrays(vector<int>& nums, int minK, int maxK) {
+        long long ans=0;
+        int minStart=0,maxStart=0,start=0;
+        bool minFound=false,maxFound=false;
+        for(int i=0;i<nums.size();i++){
+            int num = nums[i];
+            if(num<minK || num>maxK){
+                start = i+1;
+                minFound = false;
+                maxFound = false;
+            }
+            if(num==minK){
+                minStart=i;
+                minFound=true;
+            }
+            if(num==maxK){
+                maxStart=i;
+                maxFound=true;
+            }
+            
+            if(minFound & maxFound){
+                ans+= (min(minStart,maxStart)-start+1);
+            }
+        }
+        
+        return ans;
+    }
+};
