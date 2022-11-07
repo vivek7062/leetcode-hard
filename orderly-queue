@@ -1,0 +1,35 @@
+// Question - https://leetcode.com/problems/orderly-queue/
+// Answer in cpp
+
+
+Approach
+if K morethan 1 then output will be sorted otherwise we will check all string after rotation of 1 character
+Ex. cba We are taking 2 times for rotation
+-> cbacba and will take 3 len string from each character
+cba i=0
+bac i=1
+acb i=2
+you can see these all string are rotation of orginal string and will find small string all these.
+
+Complexity
+Time complexity:
+Space complexity:
+Code
+class Solution {
+public:
+     static string orderlyQueue(string s, int k) {
+       if(k>1){
+           sort(s.begin(),s.end());
+           return s;
+       } 
+       string temp=s;
+       int len=s.size();
+
+        temp = s+s;
+        for(int i=0;i<=len;i++){
+            s = min(s,temp.substr(i,len));
+        }
+
+        return s;
+    }
+};
