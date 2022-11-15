@@ -1,0 +1,35 @@
+// Question - https://leetcode.com/problems/earliest-possible-day-of-full-bloom/
+// Answer in cpp  
+
+
+Approach
+Sort according to grow time and plant all one by one
+
+Complexity
+Time complexity:
+O(NlogN)
+
+Space complexity:
+O(N)
+
+Code
+class Solution {
+public:
+    int earliestFullBloom(vector<int>& plantTime, vector<int>& growTime) {
+        int ans=0,len=plantTime.size();
+        vector<pair<int,int>> temp;
+        for(int i=0;i<len;i++){
+            temp.push_back({plantTime[i],growTime[i]});
+        }
+        sort(temp.begin(),temp.end(),comp);
+        int start=0;
+        for(int i=0;i<len;i++){
+            start+=temp[i].first;
+            ans=max(ans,start+temp[i].second);
+        }
+        return ans;
+    }
+    bool static comp(const pair<int,int> &p1,const pair<int,int> &p2){
+        return p1.second>p2.second;
+    }
+};
