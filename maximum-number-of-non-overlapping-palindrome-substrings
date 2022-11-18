@@ -1,0 +1,46 @@
+// Question - https://leetcode.com/problems/maximum-number-of-non-overlapping-palindrome-substrings/
+// Answer in cpp
+
+
+Approach
+We will check palindrom at each index by going left and right side until size less than equal to k and found palindrom string
+
+Code
+class Solution {
+public:
+    int maxPalindromes(string s, int k) {
+         int len=s.size();
+        if(k==1) return len;
+        int leftBreak=0;
+        int ans=0;
+        for(int i=0;i<len;i++){
+            int start=i,end=i;
+            
+            while(start>=leftBreak && start>=0 && end<len && s[start]==s[end]){
+                if(end-start+1>=k) {
+                    ans++;
+                    i=end;
+                    leftBreak = end+1;
+                    break;
+                }
+                start--;
+                end++;
+            }
+            
+            start=i,end=i+1;
+            while(start>=leftBreak && start>=0 && end<len && s[start]==s[end]){
+                
+                if(end-start+1>=k ) {
+                    ans++;
+                    i=end;
+                    leftBreak = end+1;
+                    break;
+                }
+                start--;
+                end++;
+            }
+        }
+        
+        return ans;
+    }
+};
