@@ -1,0 +1,51 @@
+// Question - https://leetcode.com/problems/count-subarrays-with-median-k/
+// Answer in cpp
+
+
+Approach
+Count grater g1 and small s1 value from left of k and count grater g2 and small s2 right of k
+Then for odd array g1+s1 == g2+s2 should be for k median and for even array g1+s1 = g2+s2-1
+Suppose d1 = g1+s1
+And d1 = g2+s2
+Then following condition should be satisfied for k median
+d1 = d2 or d1-d2 = 0
+d1 = d2-1 or d2-d1 = 1
+So we are checking diff from right side (After k) and storing in map and checking from left side
+
+Complexity
+Time complexity:
+O(N)
+
+Space complexity:
+O(N)
+
+Code
+class Solution {
+    int ans=0;
+public:
+    int countSubarrays(vector<int>& nums, int k) {
+        int ans = 0;
+        int len = nums.size();
+        int i=0;
+        map<int,int> rightDiff;
+        int diff=0;
+        rightDiff[diff]++;
+        for(i=0;i<len;i++) if(nums[i]==k) break;
+        for(int j=i+1;j<len;j++){
+            if(nums[j]>k) diff++;
+            else diff--;
+            rightDiff[diff]++;
+        }
+         diff =0;
+         ans+=rightDiff[1-diff]; 
+         ans+=rightDiff[0-diff];
+         
+        for(int j=i-1;j>=0;j--){
+            if(nums[j]>k) diff++;
+            else diff --;
+            ans+=rightDiff[1-diff];
+            ans+=rightDiff[0-diff];
+        }
+        return ans;
+    }
+};
