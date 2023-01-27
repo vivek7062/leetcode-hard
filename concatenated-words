@@ -1,0 +1,26 @@
+// Question - https://leetcode.com/problems/concatenated-words/
+// Answer in cpp
+
+
+class Solution {
+    map<string,int> mp;
+public:
+    vector<string> findAllConcatenatedWordsInADict(vector<string>& words) {
+        vector<string> ans;
+        for(auto& word: words) mp[word]++;
+        for(auto& word: words){
+            if(dfs(word,0,word.size())) ans.push_back(word);
+        }
+        return ans;
+    }
+    bool dfs(string &str, int index, int len){
+        if(index==len) return false;
+        if(index!=0 && mp[str.substr(index,len-index)]>0) return true;
+        string temp="";
+        for(int i=index;i<len;i++){
+            temp+=str[i];
+            if(mp[temp]>0 && dfs(str,i+1,len)) return true;
+        }
+        return false;
+    }
+};
