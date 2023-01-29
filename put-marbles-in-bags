@@ -1,0 +1,61 @@
+// Question - https://leetcode.com/problems/put-marbles-in-bags/
+// Answer in cpp
+
+
+Approach
+We know first and last value will added in both max and min so due to differece that mean become zero so as of now we are not consider first and last value
+
+Ex- > 1 2 3 4 5 6
+Suppose we are deviding into 4 part (k==4)
+
+1 | 2 | 3 | 5 6
+1 2 | 3 | 5 | 6
+1 | 2 3 | 5 | 6
+1 | 2 | 3 5 | 6
+There may be many ways
+
+So at one partition we will consider both neighbour value
+for first example
+
+1 | 2 | 3 | 5 6
+=>Sum of -> 1+1 , 2+2, 3+3, 5+6
+we can write in this way also
+1+2, 2+3, 3+5
+
+Because we are removing first and last value (In difference it become zero)
+
+So this 1+2, 2+3, 3+5 is each neighbour sum
+so we will calculate all neighbour sum
+3 , 5, 8, 11
+For maxVal we will take k max value (11+8+5)
+And
+For minVal we will take k min valuse (3+5+8)
+
+And we will return their difference (24 - 16 = 8)
+
+Complexity
+Time complexity:
+O(N)
+
+Space complexity:
+O(N)
+
+Code
+class Solution {
+public:
+    long long putMarbles(vector<int>& weights, int k) {
+        long long maxVal = 0,minVal = 0;
+        priority_queue<int> pq1,pq2;
+        for(int i=0;i<weights.size()-1;i++){
+            pq1.push((weights[i]+weights[i+1]));
+            pq2.push(-(weights[i]+weights[i+1]));
+        }
+        while(!pq1.empty() && --k){
+            maxVal+=pq1.top();
+            minVal+=-pq2.top();
+            pq1.pop();
+            pq2.pop();
+        }
+        return maxVal-minVal;
+    }
+};
