@@ -1,0 +1,46 @@
+// Question - https://leetcode.com/problems/longest-cycle-in-a-graph/
+// Answer in cpp
+
+
+
+class Solution {
+public:
+    int longestCycle(vector<int>& edges) {
+        int ans =0;
+        int len = edges.size();
+        vector<vector<int>> vec(len,vector<int>());
+        vector<bool> visited(len,false);
+        for(int i=0;i<len;i++){
+            if(edges[i]==-1) continue;
+            vec[i].push_back(edges[i]);
+        }
+        for(int i=0;i<len;i++){
+            if(!visited[i]){
+                visited[i] = true;
+                map<int,int> mp;
+                mp[i]=1;
+                queue<pair<int,int>> que;
+                que.push({i,1});
+                while(!que.empty()){
+                    pair<int,int> pr = que.front();
+                    que.pop();
+                    for(auto& node: vec[pr.first]){
+                        cout<<node<<endl;
+                        if(!visited[node]){
+                            que.push({node,pr.second+1});
+                        }
+                        if(mp[node]!=0){
+                            ans = max(ans,pr.second-mp[node]+1);
+                        }else{
+                            mp[node] = pr.second+1;
+                        }
+                        
+                        visited[node] = true;
+                    }
+                }
+            }
+        }
+
+        return ans==0?-1:ans;
+    }
+};
